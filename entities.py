@@ -33,7 +33,7 @@ class Weapon:
 
 class Sword(Weapon):
     def __init__(self, ball):
-        super().__init__(ball, damage_base=5, health_base=100, spin_speed_base=1)
+        super().__init__(ball, damage_base=5, health_base=100, spin_speed_base=SWORD_SPIN_BASE)
         self.length = SWORD_LENGTH
 
     def on_hit(self):
@@ -41,7 +41,7 @@ class Sword(Weapon):
 
 class Axe(Weapon):
     def __init__(self, ball):
-        super().__init__(ball, damage_base=10, health_base=125, spin_speed_base=0.5)
+        super().__init__(ball, damage_base=10, health_base=125, spin_speed_base=AXE_SPIN_BASE)
         self.length = AXE_LENGTH
 
     def on_hit(self):
@@ -50,7 +50,7 @@ class Axe(Weapon):
 
 class Lance(Weapon):
     def __init__(self, ball):
-        super().__init__(ball, damage_base=2, health_base=75, spin_speed_base=5)
+        super().__init__(ball, damage_base=2, health_base=75, spin_speed_base=LANCE_SPIN_BASE)
         self.length = LANCE_LENGTH
 
     def on_hit(self):
@@ -58,6 +58,7 @@ class Lance(Weapon):
 
 class Ball:
     def __init__(self, position, weapon_type):
+        self.weapon_type = weapon_type  # Para identificar en render
         # Asegurar posición inicial dentro de la arena
         self.position = [
             max(ARENA_LEFT + BALL_RADIUS, min(position[0], ARENA_LEFT + ARENA_WIDTH - BALL_RADIUS)),
@@ -112,12 +113,14 @@ class Ball:
         if self.position[0] - BALL_RADIUS < ARENA_LEFT:
             self.position[0] = ARENA_LEFT + BALL_RADIUS
             self.base_velocity[0] *= -BOUNCE_FACTOR
+            self.acceleration[0] *= -BOUNCE_FACTOR  # Invertir aceleración para conservar momentum
             if abs(self.base_velocity[0]) < MIN_BOUNCE_SPEED:
                 self.base_velocity[0] = MIN_BOUNCE_SPEED if self.base_velocity[0] > 0 else -MIN_BOUNCE_SPEED
             x_bounced = True
         elif self.position[0] + BALL_RADIUS > ARENA_LEFT + ARENA_WIDTH:
             self.position[0] = ARENA_LEFT + ARENA_WIDTH - BALL_RADIUS
             self.base_velocity[0] *= -BOUNCE_FACTOR
+            self.acceleration[0] *= -BOUNCE_FACTOR  # Invertir aceleración
             if abs(self.base_velocity[0]) < MIN_BOUNCE_SPEED:
                 self.base_velocity[0] = MIN_BOUNCE_SPEED if self.base_velocity[0] > 0 else -MIN_BOUNCE_SPEED
             x_bounced = True
@@ -126,12 +129,14 @@ class Ball:
         if self.position[1] - BALL_RADIUS < ARENA_TOP:
             self.position[1] = ARENA_TOP + BALL_RADIUS
             self.base_velocity[1] *= -BOUNCE_FACTOR
+            self.acceleration[1] *= -BOUNCE_FACTOR  # Invertir aceleración
             if abs(self.base_velocity[1]) < MIN_BOUNCE_SPEED:
                 self.base_velocity[1] = MIN_BOUNCE_SPEED if self.base_velocity[1] > 0 else -MIN_BOUNCE_SPEED
             y_bounced = True
         elif self.position[1] + BALL_RADIUS > ARENA_TOP + ARENA_HEIGHT:
             self.position[1] = ARENA_TOP + ARENA_HEIGHT - BALL_RADIUS
             self.base_velocity[1] *= -BOUNCE_FACTOR
+            self.acceleration[1] *= -BOUNCE_FACTOR  # Invertir aceleración
             if abs(self.base_velocity[1]) < MIN_BOUNCE_SPEED:
                 self.base_velocity[1] = MIN_BOUNCE_SPEED if self.base_velocity[1] > 0 else -MIN_BOUNCE_SPEED
             y_bounced = True

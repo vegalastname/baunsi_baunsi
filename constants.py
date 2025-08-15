@@ -12,7 +12,7 @@ ARENA_TOP = (SCREEN_HEIGHT - ARENA_SIZE) // 2  # Centrado vertical: 50
 ARENA_WIDTH = ARENA_SIZE
 ARENA_HEIGHT = ARENA_SIZE
 BALL_RADIUS = 50  # 20 * 2.5 - Solo pelota escalada
-HEALTH_TEXT_COLOR = (255, 255, 255)  # Blanco para texto de salud
+HEALTH_TEXT_COLOR = (255, 255, 255)  # Blanco para texto de salud en centro
 
 # Colores por tipo de pelota
 SWORD_COLOR = (255, 0, 0)    # Rojo
@@ -26,18 +26,54 @@ LANCE_LENGTH = 150  # 60 * 2.5
 WEAPON_COLOR = (255, 0, 0)
 WEAPON_THICKNESS = 13  # 5 * 2.5 (grosor de línea escalado)
 
-# Física (velocidades e impulsos escalados x2.5 para proporcionalidad con tamaños mayores)
-BOUNCE_FACTOR = 1.0  # Rebote elástico perfecto para mantener velocidad
-PARRY_BOUNCE = 1.5   # Impulso extra en parry
-IMPULSE_STRENGTH = 125  # 50 * 2.5 - Fuerza de impulso al ser golpeado (ajustable)
+# Física (velocidades reducidas 25% = *0.75; físicas más suaves: bounce_factor=0.8, parry=1.8)
+BOUNCE_FACTOR = 0.8  # Reducido para rebotes más suaves
+PARRY_BOUNCE = 1.8   # Aumentado para más impulso en parry (choque de armas)
+IMPULSE_STRENGTH = 93.75  # 125 * 0.75
 DECAY_TIME = 3.0     # Tiempo en segundos para decay de velocidad
-MIN_BOUNCE_SPEED = 250  # 100 * 2.5 - Velocidad mínima después de rebote
-MIN_SPEED = 500         # 200 * 2.5 - Magnitude mínima para velocidad base
-MAX_SPEED = 1000        # 400 * 2.5 - Magnitude máxima para velocidad base
+MIN_BOUNCE_SPEED = 187.5  # 250 * 0.75
+MIN_SPEED = 375           # 500 * 0.75
+MAX_SPEED = 750           # 1000 * 0.75
 GRAVITY = 0          # Sin gravedad por ahora
+COLLISION_DAMPING = 0.9  # Damping para colisiones pelota-pelota más suaves
+ATTRACTION_STRENGTH = 50  # Nueva: fuerza de atracción débil entre pelotas para más interacciones
+HIT_COOLDOWN = 0.5  # Tiempo en segundos para evitar múltiples hits consecutivos entre misma pair
+HIT_IMPULSE_FACTOR = 1.5  # Aumentado para impulso más fuerte en hits (reverse direction)
 
 # FPS
 FPS = 60
-HEALTH_FONT_SIZE = 60  # 24 * 2.5 (tamaño de fuente escalado para stats)
-STATS_FONT_SIZE = 30   # Nuevo: fuente más pequeña para stats adicionales
+HEALTH_FONT_SIZE = 60  # 24 * 2.5 (tamaño de fuente escalado para salud en centro)
+STATS_FONT_SIZE = 20   # Reducido para stats fuera (más pequeño)
 ARENA_BORDER_THICKNESS = 2  # No escalado, ya que arena no cambia
+
+# Posiciones fijas para stats fuera de la arena (lado izquierdo)
+STATS_X = 20  # Izquierda de la pantalla
+STATS_Y_START = 50  # Inicio vertical
+STATS_Y_SPACING = 100  # Espacio entre stats de cada pelota (reducido para más compacto)
+
+# Botón de reset
+RESET_BUTTON_RECT = pygame.Rect(SCREEN_WIDTH - 150, 10, 140, 40)  # Posición en esquina superior derecha
+RESET_BUTTON_COLOR = (100, 100, 100)  # Gris
+RESET_BUTTON_TEXT_COLOR = (255, 255, 255)  # Blanco
+RESET_BUTTON_FONT_SIZE = 24
+
+# Color para outline de texto (negro para trazo)
+OUTLINE_COLOR = (0, 0, 0)
+OUTLINE_THICKNESS = 2  # Grosor del trazo
+
+# Menú inicial
+MENU_BUTTON_WIDTH = 200
+MENU_BUTTON_HEIGHT = 50
+MENU_BUTTON_SPACING = 20
+MENU_BUTTON_COLOR = (150, 150, 150)
+MENU_BUTTON_TEXT_COLOR = (0, 0, 0)
+MENU_BUTTON_FONT_SIZE = 30
+MENU_TITLE_FONT_SIZE = 40
+MENU_TITLE_COLOR = (0, 0, 0)
+START_BUTTON_RECT = pygame.Rect(SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT - 100, 200, 50)
+START_BUTTON_COLOR = (0, 200, 0)
+
+# Spin speeds base aumentados x3 para rotación más rápida
+SWORD_SPIN_BASE = 3  # 1 * 3
+AXE_SPIN_BASE = 1.5  # 0.5 * 3
+LANCE_SPIN_BASE = 15  # 5 * 3

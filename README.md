@@ -7,7 +7,5 @@ Un juego simple en Python con Pygame donde pelotas armadas rebotan en una arena,
 2. Ejecuta: `python main.py`
 
 ## Extensión
-- Agrega más pelotas o control de jugador.
-- Mejora IA: movimiento hacia objetivos.
 - Agrega sonidos/assets reales.
-- Maneja más física (e.g., rebote basado en daño recibido).
+- Mejorar las físicas
